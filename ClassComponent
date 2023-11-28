@@ -1,0 +1,56 @@
+import {Component} from 'react'
+import {PieChart, Pie, Cell, Tooltip, Legend} from 'recharts'
+
+const data = [
+  {name: 'Category A', value: 400},
+  {name: 'Category B', value: 300},
+  {name: 'Category C', value: 200},
+  {name: 'Category D', value: 100},
+]
+
+class SimplePieChart extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeIndex: null,
+    }
+  }
+
+  onPieEnter = (_, index) => {
+    this.setState({
+      activeIndex: index,
+    })
+  }
+
+  render() {
+    const {activeIndex} = this.state
+
+    return (
+      <div>
+        <PieChart width={400} height={400}>
+          <Pie
+            data={data}
+            cx={200}
+            cy={200}
+            innerRadius={60}
+            outerRadius={80}
+            fill="#8884d8"
+            dataKey="value"
+            onMouseEnter={this.onPieEnter}
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${entry.name}`}
+                fill={index === activeIndex ? '#82ca9d' : '#8884d8'}
+              />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </div>
+    )
+  }
+}
+
+export default SimplePieChart
